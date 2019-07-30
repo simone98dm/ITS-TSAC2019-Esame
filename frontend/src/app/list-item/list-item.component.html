@@ -1,0 +1,18 @@
+<div
+  class="card card-body shadow mb-2"
+  [ngClass]="{ 'alert-danger': measurement.consume >= 40 }"
+>
+  <div class="row">
+    <span class="badge badge-primary badge-sm mr-3">{{
+      measurement.id.id
+    }}</span>
+    <h5 class="card-title">
+      <a [routerLink]="['/details', measurement.id.id]">
+        {{ measurement.id.description }}</a
+      >
+    </h5>
+
+    <p class="col">Speed: {{ measurement.speed }} ( meter/hour )</p>
+    <p class="col">Consume: {{ measurement.consume }} ( W )</p>
+  </div>
+</div>

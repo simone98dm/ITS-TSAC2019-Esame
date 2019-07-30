@@ -1,0 +1,91 @@
+version: '3.5'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: queue
+    restart: always
+    networks:
+      - default
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:-simone}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:-SuperSecretPasswordUnCrackable}
+
+  timescaledb:
+    container_name: database
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-simone}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-SuperSecretPasswordUnCrackable}
+      POSTGRES_DB: ${POSTGRES_DB:-mondocleandb}
+      PGDATA: /data/postgres
+    image: timescale/timescaledb:latest-pg11
+    volumes:
+      - postgres:/data/postgres
+      - ./dump:/docker-entrypoint-initdb.d/
+    restart: always
+    networks:
+      - default
+    ports:
+      - 5432:5432
+
+  store_endpoint:
+    container_name: store_endpoint
+    build: ./store-endpoint
+    restart: always
+    env_file:
+      - ./store-endpoint/.env
+    networks:
+      - default
+    ports:
+      - 3001:3001
+
+  consumer:
+    container_name: consumer
+    build: ./consumer
+    restart: always
+    env_file:
+      - ./consumer/.env
+    networks:
+      - default
+
+  pubsub:
+    container_name: pubsub
+    build: ./pubsub
+    restart: always
+    env_file:
+      - ./pubsub/.env
+    ports:
+      - 3002:3002
+    networks:
+      - default
+
+  api_endpoint:
+    container_name: api_endpoint
+    build: ./api-endpoint
+    restart: always
+    env_file:
+      - ./api-endpoint/.env
+    networks:
+      - default
+    ports:
+      - 3000:3000
+
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      - default
+
+volumes:
+  postgres:
+
+networks:
+  default:
+    external:
+      name: mondoclean_net
