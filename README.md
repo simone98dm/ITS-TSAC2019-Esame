@@ -14,9 +14,9 @@ L'azienda necessità di sapere la velocità dei nastri, o del singolo, ogni 30 s
 
 ```json
 {
-	id:0,
-	speed: "35",
-	consume:"40"
+	"id":0,
+	"speed": "35",
+	"consume":"40"
 }
 ```
 
@@ -32,15 +32,15 @@ La scelta di salvare sul database i valori dei sensori come stringhe invece che 
 
 ## Use case diagram
 
-![1](/home/simone/Desktop/1.png)
+![1](https://github.com/simone98dm/TSAC2019-Esame/blob/images/1.png)
 
 ## Sequence diagram
 
-![sequence-diagram](/home/simone/Desktop/sequence-diagram.png)
+![sequence-diagram](https://github.com/simone98dm/TSAC2019-Esame/blob/images/sequence-diagram.png)
 
 ## Architecture diagram
 
-![store-wq-consumer-api](/home/simone/Desktop/store-wq-consumer-api.png)
+![store-wq-consumer-api](https://github.com/simone98dm/TSAC2019-Esame/blob/images/store-wq-consumer-api.png)
 
 Tutto il progetto è basato su una macchina `EC2` di `AWS`, la scelta è stata dettata dalla familiarità con il servizio.
 
